@@ -31,6 +31,18 @@ const isMaxSerialNummer = function (serialNumber: number[]) {
   );
 };
 
+const isValidBirthday = function (birthday: string): boolean {
+  if (birthday.length !== 6) {
+    return false;
+  }
+
+  if (isNaN(parseInt(birthday))) {
+    return false;
+  }
+
+  return true;
+};
+
 export const validateCpr = function (cpr: string): boolean {
   const digitisInCpr = convertCprStringToDigits(cpr);
   const result = digitisInCpr.reduce(reduceCpr, 0);
@@ -38,6 +50,10 @@ export const validateCpr = function (cpr: string): boolean {
 };
 
 export const generateCprs = function (birthday: string): string[] {
+  if (!isValidBirthday(birthday)) {
+    throw new Error();
+  }
+
   const cprs: string[] = [];
   const serialNumbers = [0, 0, 0, 0];
 

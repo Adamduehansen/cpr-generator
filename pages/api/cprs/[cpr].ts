@@ -5,6 +5,7 @@ import { generateCprs } from './cpr';
 interface Data {
   length: number;
   cprs: string[];
+  message?: string;
 }
 
 const handler = async function (
@@ -13,12 +14,19 @@ const handler = async function (
 ) {
   const cpr = request.query.cpr as string;
 
-  const cprs = generateCprs(cpr);
-
-  response.status(200).json({
-    length: cprs.length,
-    cprs: cprs,
-  });
+  try {
+    const cprs = generateCprs(cpr);
+    response.status(200).json({
+      length: cprs.length,
+      cprs: cprs,
+    });
+  } catch {
+    response.status(400).json({
+      length: 0,
+      cprs: [],
+      message: 'birthday is not valid',
+    });
+  }
 };
 
 export default handler;

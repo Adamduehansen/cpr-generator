@@ -26,6 +26,13 @@ describe('cpr', () => {
   });
 
   describe('generateCpr', () => {
+    test.each(['123', '123123123', 'abcdef'])(
+      'should throw error when birthday is not valid',
+      (birthday) => {
+        expect(() => generateCprs(birthday)).toThrowError();
+      }
+    );
+
     test.each([['130594', 909]])(
       'should generate cprs from birthday',
       (birthday, expectedNumberOfCprs) => {
